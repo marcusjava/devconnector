@@ -217,6 +217,45 @@ router.post(
   }
 );
 
+// @route DELETE api/profile/experience/:id
+// @desc DELETE Experience to profile
+// @acsess private
+router.delete(
+  "/experience/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      // Remove index indexOf or Map or forEach
+      const removeIndex = profile.experience
+        .map(item => item.id)
+        .indexOf(req.params.id);
+      // Splice
+      profile.experience.splice(removeIndex, 1);
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
+// @route DELETE api/profile/education/:id
+// @desc DELETE Education to profile
+// @acsess private
+
+router.delete(
+  "/education/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      // Remove index indexOf or Map or forEach
+      const removeIndex = profile.education
+        .map(item => item.id)
+        .indexOf(req.params.id);
+      // Splice
+      profile.education.splice(removeIndex, 1);
+      profile.save().authenticatethen(profile => res.json(profile));
+    });
+  }
+);
+
 // @route GET api/profile/user/:id
 // @desc GET profile by id
 // @acsess public
@@ -237,4 +276,19 @@ router.get("/user/:user_id", (req, res) => {
         .json({ msg: "Ocorreu um erro ao carregar o perfil do usuario" })
     );
 });
+
+// @route DELETE api/profile
+// @desc DELETE user and profile
+// @acsess private
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+      User.findOneAndRemove({ _id: req.user.id }).then(() => {
+        res.json({ msg: "User and profile deleted" });
+      });
+    });
+  }
+);
 module.exports = router;
