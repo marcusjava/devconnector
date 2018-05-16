@@ -5,6 +5,9 @@ module.exports = function validateProfileInput(data) {
   let errors = {};
   // required fields
   data.handle = !isEmpty(data.handle) ? data.handle : "";
+  data.handle = !isEmpty(data.company) ? data.company : "";
+  data.handle = !isEmpty(data.website) ? data.website : "";
+  data.handle = !isEmpty(data.location) ? data.location : "";
   data.status = !isEmpty(data.status) ? data.status : "";
   data.skills = !isEmpty(data.skills) ? data.skills : "";
 
@@ -16,6 +19,24 @@ module.exports = function validateProfileInput(data) {
     errors.handle = "Handle required";
   }
 
+  if (Validator.isEmpty(data.company)) {
+    errors.company = "Company required";
+  }
+
+  if (Validator.isEmpty(data.website)) {
+    errors.website = "Website required";
+  }
+
+  if (!isEmpty(data.website)) {
+    if (!Validator.isURL(data.website)) {
+      errors.website = "Not a valid Url";
+    }
+  }
+
+  if (Validator.isEmpty(data.location)) {
+    errors.location = "Location required";
+  }
+
   if (Validator.isEmpty(data.status)) {
     errors.status = "Status required";
   }
@@ -24,22 +45,10 @@ module.exports = function validateProfileInput(data) {
     errors.skills = "Skills required";
   }
 
-  if (!isEmpty(data.website)) {
-    if (!Validator.isURL(data.website)) {
-      errors.website = "Not a valid Url";
-    }
+  if (Validator.isEmpty(data.status)) {
+    errors.status = "Status required";
   }
 
-  if (!isEmpty(data.website)) {
-    if (!Validator.isURL(data.website)) {
-      errors.website = "Not a valid Url";
-    }
-  }
-  if (!isEmpty(data.website)) {
-    if (!Validator.isURL(data.website)) {
-      errors.website = "Not a valid Url";
-    }
-  }
   if (!isEmpty(data.youtube)) {
     if (!Validator.isURL(data.youtube)) {
       errors.youtube = "Not a valid Url";

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { getCurrentProfile } from "../../actions/profileActions";
+import { getCurrentProfile, saveProfile } from "../../actions/profileActions";
 import TextFieldGroup from "../common/textFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
@@ -9,7 +10,7 @@ import SelectListGroup from "../common/SelectListGroup";
 
 class CreateProfile extends Component {
   state = {
-    displaySocialLinks: false,
+    displaySocialInputs: false,
     handle: "",
     company: "",
     website: "",
@@ -25,6 +26,11 @@ class CreateProfile extends Component {
     errors: {}
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
   componentDidMount() {
     this.props.getCurrentProfile();
   }
@@ -37,6 +43,7 @@ class CreateProfile extends Component {
 
   createProfile = e => {
     e.preventDefault();
+    this.props.saveProfile(this.state, this.props.history);
   };
   render() {
     const { errors } = this.props;
@@ -51,6 +58,72 @@ class CreateProfile extends Component {
       { value: "Intern", label: "Intern" },
       { value: "Other", label: "Other" }
     ];
+    let socialInputs;
+    if (this.state.displaySocialInputs) {
+      socialInputs = (
+        <div>
+          <div className="input-group mb-3">
+            <InputGroup
+              type="text"
+              icon="fab fa-twitter"
+              placeholder="Twitter Profile URL"
+              name="twitter"
+              onChange={this.onChange}
+              value={this.state.twitter}
+              error={errors.twitter}
+            />
+          </div>
+
+          <div className="input-group mb-3">
+            <InputGroup
+              type="text"
+              icon="fab fa-facebook"
+              placeholder="Facebook Page URL"
+              name="facebook"
+              onChange={this.onChange}
+              value={this.state.facebook}
+              error={errors.facebook}
+            />
+          </div>
+
+          <div className="input-group mb-3">
+            <InputGroup
+              type="text"
+              icon="fab fa-linkedin"
+              placeholder="Linkedin Profile URL"
+              name="linkedin"
+              onChange={this.onChange}
+              value={this.state.linkedin}
+              error={errors.linkedin}
+            />
+          </div>
+
+          <div className="input-group mb-3">
+            <InputGroup
+              type="text"
+              icon="fab fa-youtube"
+              placeholder="YouTube Channel URL"
+              name="youtube"
+              onChange={this.onChange}
+              value={this.state.youtube}
+              error={errors.youtube}
+            />
+          </div>
+
+          <div className="input-group mb-3">
+            <InputGroup
+              type="text"
+              icon="fab fa-instagram"
+              placeholder="Instagram Page URL"
+              name="instagram"
+              onChange={this.onChange}
+              value={this.state.instagram}
+              error={errors.instagram}
+            />
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="create-profile">
@@ -79,7 +152,14 @@ class CreateProfile extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <SelectListGroup name="status" options={options} />
+                  <SelectListGroup
+                    name="status"
+                    options={options}
+                    value={this.state.status}
+                    onChange={this.onChange}
+                    error={errors.status}
+                    info="Give us an ideia of where you are at in your carreer"
+                  />
                 </div>
                 <div className="form-group">
                   <TextFieldGroup
@@ -144,75 +224,25 @@ class CreateProfile extends Component {
                     info=" Tell us a little about yourself"
                     onChange={this.onChange}
                     error={errors.bio}
+                    required
                   />
                 </div>
 
                 <div className="mb-3">
-                  <button type="button" className="btn btn-light">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.setState(prevState => ({
+                        displaySocialInputs: !prevState.displaySocialInputs
+                      }));
+                    }}
+                    className="btn btn-light"
+                  >
                     Add Social Network Links
                   </button>
                   <span className="text-muted">Optional</span>
                 </div>
-
-                <div className="input-group mb-3">
-                  <InputGroup
-                    type="text"
-                    icon="fab fa-twitter"
-                    placeholder="Twitter Profile URL"
-                    name="twitter"
-                    onChange={this.onChange}
-                    value={this.state.twitter}
-                    error={errors.twitter}
-                  />
-                </div>
-
-                <div className="input-group mb-3">
-                  <InputGroup
-                    type="text"
-                    icon="fab fa-facebook"
-                    placeholder="Facebook Page URL"
-                    name="facebook"
-                    onChange={this.onChange}
-                    value={this.state.facebook}
-                    error={errors.facebook}
-                  />
-                </div>
-
-                <div className="input-group mb-3">
-                  <InputGroup
-                    type="text"
-                    icon="fab fa-linkedin"
-                    placeholder="Linkedin Profile URL"
-                    name="linkedin"
-                    onChange={this.onChange}
-                    value={this.state.linkedin}
-                    error={errors.linkedin}
-                  />
-                </div>
-
-                <div className="input-group mb-3">
-                  <InputGroup
-                    type="text"
-                    icon="fab fa-youtube"
-                    placeholder="YouTube Channel URL"
-                    name="youtube"
-                    onChange={this.onChange}
-                    value={this.state.youtube}
-                    error={errors.youtube}
-                  />
-                </div>
-
-                <div className="input-group mb-3">
-                  <InputGroup
-                    type="text"
-                    icon="fab fa-instagram"
-                    placeholder="Instagram Page URL"
-                    name="instagram"
-                    onChange={this.onChange}
-                    value={this.state.instagram}
-                    error={errors.instagram}
-                  />
-                </div>
+                {socialInputs}
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
@@ -235,4 +265,6 @@ const mapStateToProps = state => ({
   profile: state.profile,
   loading: state.loading
 });
-export default connect(mapStateToProps, { getCurrentProfile })(CreateProfile);
+export default connect(mapStateToProps, { getCurrentProfile, saveProfile })(
+  withRouter(CreateProfile)
+);

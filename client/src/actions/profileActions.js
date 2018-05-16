@@ -33,6 +33,37 @@ export const setProfileLoading = () => {
   };
 };
 
+export const saveProfile = (profile, history) => dispatch => {
+  dispatch(setProfileLoading());
+  const data = {
+    handle: profile.handle,
+    company: profile.company,
+    website: profile.website,
+    location: profile.location,
+    status: profile.status,
+    skills: profile.skills,
+    githubusername: profile.githubusername,
+    bio: profile.bio,
+    twitter: profile.twitter,
+    facebook: profile.facebook,
+    linkedin: profile.linkedin,
+    instagram: profile.instagram,
+    status: "Active"
+  };
+  axios
+    .post("http://localhost:5000/api/profile", data)
+    .then(response => {
+      history.push("/dashboard");
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data
+      });
+    });
+};
+
 export const clearProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE
