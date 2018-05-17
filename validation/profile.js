@@ -5,9 +5,9 @@ module.exports = function validateProfileInput(data) {
   let errors = {};
   // required fields
   data.handle = !isEmpty(data.handle) ? data.handle : "";
-  data.handle = !isEmpty(data.company) ? data.company : "";
-  data.handle = !isEmpty(data.website) ? data.website : "";
-  data.handle = !isEmpty(data.location) ? data.location : "";
+  data.company = !isEmpty(data.company) ? data.company : "";
+  data.website = !isEmpty(data.website) ? data.website : "";
+  data.location = !isEmpty(data.location) ? data.location : "";
   data.status = !isEmpty(data.status) ? data.status : "";
   data.skills = !isEmpty(data.skills) ? data.skills : "";
 

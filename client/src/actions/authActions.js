@@ -54,5 +54,5 @@ export const logoutUser = history => dispatch => {
   setAuthToken(false);
   // Set current user to {} which will set is Authenticated to false
   dispatch(setCurrentUser({}));
-  history.push("/");
+  // history.push("/");
 };

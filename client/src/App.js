@@ -4,6 +4,7 @@ import Navbar from "./components/layout/NavBar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
+import EditProfile from "./components/edit-profile/EditProfile";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import CreateProfile from "./components/create-profile/CreateProfile";
@@ -47,10 +48,19 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              </Switch>
+              <Switch>
                 <PrivateRoute
                   exact
                   path="/createprofile"
                   component={CreateProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/editprofile"
+                  component={EditProfile}
                 />
               </Switch>
             </div>

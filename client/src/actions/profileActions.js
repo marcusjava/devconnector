@@ -2,9 +2,11 @@ import {
   GET_PROFILE,
   PROFILE_LOADING,
   GET_ERRORS,
-  CLEAR_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE,
+  SET_CURRENT_USER
 } from "./types";
 import axios from "axios";
+import { logoutUser } from "./authActions";
 
 // Register User
 export const getCurrentProfile = () => dispatch => {
@@ -40,7 +42,7 @@ export const saveProfile = (profile, history) => dispatch => {
     company: profile.company,
     website: profile.website,
     location: profile.location,
-    status: profile.status,
+    // status: profile.status,
     skills: profile.skills,
     githubusername: profile.githubusername,
     bio: profile.bio,
@@ -54,6 +56,28 @@ export const saveProfile = (profile, history) => dispatch => {
     .post("http://localhost:5000/api/profile", data)
     .then(response => {
       history.push("/dashboard");
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data
+      });
+    });
+};
+
+export const deleteAccount = (user, history) => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .delete("http://localhost:5000/api/profile", user)
+    .then(response => {
+      console.log(response);
+      // dispatch(clearProfile());
+      // dispatch(logoutUser(history));
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: {}
+      });
     })
     .catch(error => {
       console.log(error);

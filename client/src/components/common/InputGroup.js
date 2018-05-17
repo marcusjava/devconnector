@@ -26,6 +26,8 @@ const InputGroup = ({
         })}
         placeholder={placeholder}
         name={name}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
