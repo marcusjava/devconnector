@@ -49,8 +49,8 @@ class Dashboard extends Component {
                     </Link>
                   </p>
                   <ProfileActions />
-                  <Experience />
-                  <Education />
+                  <Experience experience={profile.experience} />
+                  <Education education={profile.education} />
 
                   <div style={{ marginBottom: "60px" }}>
                     <button onClick={this.onDelete} className="btn btn-danger">
@@ -98,6 +98,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Dashboard
-);
+export default connect(
+  mapStateToProps,
+  { getCurrentProfile, deleteAccount }
+)(Dashboard);

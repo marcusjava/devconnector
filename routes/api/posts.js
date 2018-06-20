@@ -15,7 +15,7 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { erros, isValid } = validation(req.body);
+    const { errors, isValid } = validation(req.body);
 
     if (!isValid) {
       return res.status(400).json(errors);
@@ -105,7 +105,7 @@ router.post(
 // @desc POST unlikes route
 // @access Private
 router.post(
-  "/unlike/:id",
+  "/unlikes/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user.id })

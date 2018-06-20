@@ -5,7 +5,16 @@ import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
 import EditProfile from "./components/edit-profile/EditProfile";
+import AddExperience from "./components/add-credentials/AddExperience";
+import AddEducation from "./components/add-credentials/AddEducation";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+// post
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
+//
 import Login from "./components/auth/Login";
+import NotFound from "./components/notfound/NotFound";
 import Register from "./components/auth/Register";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import { Provider } from "react-redux";
@@ -46,6 +55,8 @@ class App extends Component {
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
@@ -63,6 +74,27 @@ class App extends Component {
                   component={EditProfile}
                 />
               </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/addexperience"
+                  component={AddExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/addeducation"
+                  component={AddEducation}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/posts" component={Posts} />
+              </Switch>
+              <Route exact path="/not_found" component={NotFound} />
             </div>
             <Footer />
           </div>

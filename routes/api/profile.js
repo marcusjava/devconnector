@@ -36,7 +36,7 @@ router.get(
           errors.noprofile = "Profile not found";
           return res.status(404).json(errors);
         }
-        return res.status(200).json({ profile });
+        return res.status(200).json(profile);
       })
       .catch(error => res.status(404).json(errors));
   }

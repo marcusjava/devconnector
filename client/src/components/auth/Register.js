@@ -65,6 +65,7 @@ class Register extends Component {
               <form noValidate onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   type="text"
+                  name="name"
                   placeholder="Name"
                   value={this.state.name}
                   onChange={this.onChange}
@@ -88,8 +89,8 @@ class Register extends Component {
                   error={errors.password}
                 />
                 <TextFieldGroup
-                  type="password2"
-                  name="password"
+                  type="password"
+                  name="password2"
                   placeholder="Confirm Password"
                   value={this.state.password2}
                   onChange={this.onChange}
@@ -112,4 +113,7 @@ Register.propTypes = {
   errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Register));

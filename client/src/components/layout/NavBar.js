@@ -17,6 +17,16 @@ class Navbar extends Component {
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
+        <li className="nav-item mr-3">
+          <Link className="nav-link" to="/dashboard">
+            Dashboard
+          </Link>
+        </li>
+        <li className="nav-item mr-3">
+          <Link className="nav-link" to="/posts">
+            Post Feed
+          </Link>
+        </li>
         <li className="nav-item">
           <a onClick={this.onLogoutClick} className="nav-link">
             <img
@@ -64,7 +74,7 @@ class Navbar extends Component {
             <div className="collapse navbar-collapse" id="mobile-nav">
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to="profiles.html">
+                  <Link className="nav-link" to="/profiles">
                     {" "}
                     Developers
                   </Link>
@@ -86,6 +96,7 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = state => ({ auth: state.auth });
-export default connect(mapStateToProps, { logoutUser, clearProfile })(
-  withRouter(Navbar)
-);
+export default connect(
+  mapStateToProps,
+  { logoutUser, clearProfile }
+)(withRouter(Navbar));
